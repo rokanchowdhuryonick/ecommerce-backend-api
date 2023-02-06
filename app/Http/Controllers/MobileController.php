@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Filter;
 use App\Models\FilterAttribute;
+use App\Models\FilterMobile;
 use App\Models\Mobile;
 use Illuminate\Http\Request;
 
@@ -35,14 +36,41 @@ class MobileController extends Controller
 
         foreach($mobiles as $mobile){
             $f1 = FilterAttribute::find(rand(1,6));
-            print_r($f1);
+            // print_r($f1);
             $mobileCreated = Mobile::create($mobile);
-            $mobileCreated->attributes()->save($f1);
+            
+            $mobileCreated->attributes()->create([
+                // 'mobile_id'=>'',
+                'attribute_id'=>$f1->id,
+            ]);
             if($mobileCreated){
                 echo $mobile['mobile_name']." Mobile created filter added <br>";
             }
 
         }
 
+    }
+
+    public function list(Request $request){
+        $filter_attribute_id = $request->input('filterID');
+
+        $filterData = Filter::all();
+        if ($filter_attribute_id) {
+            $explodedIDs = explode(",", $filter_attribute_id);
+            $list = FilterMobile::with(['mobile'])->select('mobile_id')->whereIn('attribute_id', $explodedIDs)->groupBy('mobile_id')->get();
+            $array = json_decode(json_encode($list), true);
+            $mobileArray = array_map(function($object) {
+                return $object['mobile'];
+            }, $array);
+            return response()->json(['status'=>true, 'mobileData'=>$mobileArray, 'filterData'=>$filterData],200);
+        }else{
+            $list = Mobile::all();
+            return response()->json(['status'=>true, 'mobileData'=>$list, 'filterData'=>$filterData],200);
+        }
+    }
+
+    public function filters(){
+        $filters = Filter::all();
+        return response()->json(['status'=>true, 'data'=>$filters],200);
     }
 }

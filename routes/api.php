@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\MobileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,3 +28,6 @@ Route::get('/auth/create', [AuthController::class,'index'])->name('create');
 Route::middleware(['jwt.verify:api'])->group(function(){
     Route::get('/employees', [EmployeeController::class, 'list']);
 });
+
+Route::get('/mobiles', [MobileController::class, 'list']);
+Route::get('/filters', [MobileController::class, 'filters']);

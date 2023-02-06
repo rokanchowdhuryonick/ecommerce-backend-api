@@ -13,4 +13,6 @@ class FilterAttribute extends Model
         'filter_id',
         'attribute',
     ];
+
+    
 }

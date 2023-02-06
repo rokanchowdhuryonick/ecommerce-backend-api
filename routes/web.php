@@ -21,4 +21,4 @@ Route::get('/', function () {
 
 // Route::get('employee/create', [EmployeeController::class, 'create']);
 // Route::get('filter/generate', [MobileController::class, 'filterCreate']);
-Route::get('mobile/generate', [MobileController::class, 'create']);
+// Route::get('mobile/generate', [MobileController::class, 'create']);

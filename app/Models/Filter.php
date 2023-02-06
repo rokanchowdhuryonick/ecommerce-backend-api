@@ -12,8 +12,15 @@ class Filter extends Model
     protected $fillable = [
         'filter_type',
     ];
+    protected $appends = [
+        'attributes',
+    ];
     public function attributes()
     {
         return $this->hasMany(FilterAttribute::class);
+    }
+    public function getAttributesAttribute()
+    {
+        return $this->attributes()->get();
     }
 }

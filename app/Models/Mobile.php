@@ -13,8 +13,23 @@ class Mobile extends Model
         'mobile_name',
         'mobile_photo',
     ];
+    protected $appends = [
+        'photo_path',
+        'filters'
+    ];
 
-    public function attributes(){
-        return $this->hasMany(FilterMobile::class, 'attribute_id');
+    public function filterAttributes(){
+        return $this->hasMany(FilterMobile::class, 'mobile_id');
     }
+
+    public function getPhotoPathAttribute(){
+        return asset("Uploads/Images/".$this->mobile_photo);
+    }
+
+    public function getFiltersAttribute(){
+        return $this->belongsToMany(FilterAttribute::class, 'filter_mobiles', 'mobile_id', 'attribute_id')->get();
+        // hasManT
+    }
+
+    
 }
