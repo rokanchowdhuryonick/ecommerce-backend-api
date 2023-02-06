@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\MobileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Route::get('employee/create', [EmployeeController::class, 'create']);
+// Route::get('filter/generate', [MobileController::class, 'filterCreate']);
+Route::get('mobile/generate', [MobileController::class, 'create']);
